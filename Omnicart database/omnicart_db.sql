@@ -45,3 +45,10 @@ CONSTRAINT `fk_employees_office` FOREIGN KEY(`office_id`) REFERENCES `office`(`o
 CONSTRAINT 	`fk_employee_department` FOREIGN KEY(`department_id`) REFERENCES `department`(`department_id`) ON UPDATE CASCADE
 
 );
+
+-- Creating the shippers table
+CREATE TABLE `shippers`(
+`shippers_id` INT NOT NULL,
+`company_name` VARCHAR(100) UNIQUE NOT NULL,
+PRIMARY KEY(`shippers_id`)
+);
