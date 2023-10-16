@@ -27,7 +27,21 @@ CREATE TABLE `employees`(
 `last_name` VARCHAR(50) NOT NULL,
 `email` VARCHAR(50) NOT NULL,
 `job_title` VARCHAR(50) NOT NULL,
+`reports_to`INT,
+`office_id` INT NOT NULL,
+`department_id` INT NOT NULL,
 `hire_date` DATE,
 `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 `updated_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+PRIMARY KEY(`employee_id`),
+
+-- Creating indexes to optimize the performance of the foriegn keys
+KEY `fk_employees_employee_idx`(`reports_to`),
+KEY `fk_employees_office_idx`(`office_id`),
+KEY `fk_employees_department_idx`(`department_id`),
+
+CONSTRAINT `fk_employees_employee` FOREIGN KEY(`reports_to`) REFERENCES `employees`(`employee_id`) ON DELETE SET NULL,
+CONSTRAINT `fk_employees_office` FOREIGN KEY(`office_id`) REFERENCES `office`(`office_id`) ON UPDATE CASCADE,
+CONSTRAINT 	`fk_employee_department` FOREIGN KEY(`department_id`) REFERENCES `department`(`department_id`) ON UPDATE CASCADE
+
 );
