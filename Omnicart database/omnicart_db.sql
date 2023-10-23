@@ -1,3 +1,5 @@
+DROP DATABASE IF EXISTS `omnicart_db`;
+
 -- Creating the omnicart database
 CREATE DATABASE IF NOT EXISTS `omnicart_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 
@@ -48,7 +50,33 @@ CONSTRAINT 	`fk_employee_department` FOREIGN KEY(`department_id`) REFERENCES `de
 
 -- Creating the shippers table
 CREATE TABLE `shippers`(
-`shippers_id` INT NOT NULL,
+`shipper_id` INT NOT NULL,
 `company_name` VARCHAR(100) UNIQUE NOT NULL,
-PRIMARY KEY(`shippers_id`)
+PRIMARY KEY(`shipper_id`)
 );
+
+-- Creating table for inventory products
+CREATE TABLE `inventory_products`(
+`inventory_product_id` INT NOT NULL AUTO_INCREMENT,
+`inventory_product_name` VARCHAR(60) NOT NULL,
+`inventory_quantity_in_stock` INT NOT NULL CHECK(inventory_quantity_in_stock>=0),
+`inventory_unit_price` DECIMAL(10,2) NOT NULL CHECK(inventory_unit_price>=0),
+`shipper_id` INT NOT NULL,
+
+PRIMARY KEY(`inventory_product_id`),
+
+KEY `fk_inventory_products_shipper_idx` (`shipper_id`),
+
+CONSTRAINT `fk_inventory_products_shipper` FOREIGN KEY(`shipper_id`) REFERENCES `shippers`(`shipper_id`) ON UPDATE CASCADE
+
+);
+
+-- Creating The store product table
+CREATE TABLE `store_products`(
+`store_product_id` INT NOT NULL,
+`store_product_name` VARCHAR(60) NOT NULL,
+`store_quantity` INT NOT NULL CHECK(store_quantity>=0),
+`store_unit_price` DECIMAL(10,2) NOT NULL CHECK(store_unit_price>=0),
+
+PRIMARY KEY(`store_product_id`)
+)AUTO_INCREMENT = 11;
